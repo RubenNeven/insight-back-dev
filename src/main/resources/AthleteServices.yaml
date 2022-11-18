@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+  title: Athlete API
+  description: Athlete API for Insight
+  contact:
+    name: Ruben Neven
+    email: rubenneven@gmail.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/
+paths:
+  /athlete/findAll:
+    description: Athlete Resource
+    get:
+      tags:
+        - Athlete
+      operationId: getAllAthletes
+      description: Operation to Get All Athletes
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AthleteDTO'
+
+  /athlete/{id}:
+    description: Athlete Resource
+    get:
+      tags:
+        - Athlete
+      operationId: getAthletesById
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      description: Operation to Get Athlete By Id
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AthleteDTO'
+
+  /athlete/createAthlete:
+    post:
+      tags:
+        - Athlete
+      operationId: createAthlete
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AthleteDTO'
+      responses:
+        201:
+          description: Athlete Created
+
+components:
+  schemas:
+    AthleteDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1
+        firstName:
+          type: string
+          example: 'Ruben'
+        lastName:
+          type: string
+          example: 'Neven'
+        height:
+          type: number
+          format: float
+          example: 1.76
+        weight:
+          type: number
+          format: float
+          example: 75.3
+        gender:
+          $ref: '#/components/schemas/Gender'
+
+    Gender:
+      type: string
+      enum:
+        - MALE
+        - FEMALE
